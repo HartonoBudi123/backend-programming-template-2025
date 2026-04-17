@@ -6,8 +6,14 @@ const config = require('../core/config');
 const logger = require('../core/logger')('app');
 
 // Join the database connection string
-const connectionString = new URL(config.database.connection);
-connectionString.pathname += config.database.name;
+let connectionString = config.database.connection;
+
+// Pastikan ada '/' di antara connection string dan nama database
+if (!connectionString.endsWith('/')) {
+  connectionString += '/';
+}
+
+connectionString += config.database.name;
 
 mongoose.connect(`${connectionString.toString()}`);
 
